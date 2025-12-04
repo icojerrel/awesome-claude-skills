@@ -1,0 +1,7 @@
+# Test IOCs - matching our suspicious files
+192.168.100.50
+203.0.113.50
+malicious-c2.example.com
+evil-domain.net
+d41d8cd98f00b204e9800998ecf8427e
+3a51367269f8ad676c011d1f95829c44
