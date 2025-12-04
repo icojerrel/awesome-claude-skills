@@ -143,6 +143,7 @@ Claude Skills are customizable workflows that teach Claude how to perform specif
 
 ### Security & Systems
 
+- [Security & Forensics](./security-forensics/) - Comprehensive digital forensics and security analysis for incident response, threat hunting, malware analysis, log analysis, metadata extraction, secure file operations, and CTF challenges. Includes helper scripts for file analysis, evidence collection, and IOC scanning.
 - [computer-forensics](https://github.com/mhattingpete/claude-skills-marketplace/tree/main/computer-forensics-skills/skills/computer-forensics) - Digital forensics analysis and investigation techniques.
 - [file-deletion](https://github.com/mhattingpete/claude-skills-marketplace/tree/main/computer-forensics-skills/skills/file-deletion) - Secure file deletion and data sanitization methods.
 - [metadata-extraction](https://github.com/mhattingpete/claude-skills-marketplace/tree/main/computer-forensics-skills/skills/metadata-extraction) - Extract and analyze file metadata for forensic purposes.

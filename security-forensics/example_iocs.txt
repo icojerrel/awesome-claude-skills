@@ -1,0 +1,36 @@
+# Example Indicators of Compromise (IOCs)
+# Use this file as a template for IOC scanning
+
+# === Malicious IP Addresses ===
+203.0.113.50
+198.51.100.23
+192.0.2.100
+
+# === Known Malware File Hashes ===
+# MD5 Hashes
+d41d8cd98f00b204e9800998ecf8427e
+5d41402abc4b2a76b9719d911017c592
+
+# SHA256 Hashes
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae
+
+# === Malicious Domains ===
+malicious-c2.example.com
+evil-domain.net
+phishing-site.org
+
+# === Suspicious File Paths ===
+/tmp/.hidden_backdoor
+/var/tmp/malware.elf
+/home/user/.secret_payload
+
+# === Suspicious Strings/Patterns ===
+eval(base64_decode
+powershell -enc
+cmd.exe /c
+bash -i >& /dev/tcp
+
+# === Registry Keys (Windows) ===
+# HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Run\Malware
+# HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run\Backdoor
