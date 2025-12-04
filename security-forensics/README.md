@@ -61,7 +61,9 @@ claude
 
 ## Helper Scripts
 
-The skill includes several helper scripts in the `scripts/` directory:
+The skill includes **8 powerful helper scripts** in the `scripts/` directory:
+
+### Core Analysis Tools
 
 ### 1. Quick File Analysis (`quick_file_analysis.sh`)
 Performs rapid triage of suspicious files with:
@@ -137,6 +139,88 @@ a1b2c3d4e5f6...
 
 # Domains
 malicious.example.com
+```
+
+### Advanced Threat Intelligence Tools
+
+### 6. VirusTotal Lookup (`virustotal_lookup.sh`) 🆕
+Query file hashes against VirusTotal's database of 70+ antivirus engines for instant threat intelligence.
+
+**Features:**
+- Single hash or file lookup
+- Batch processing
+- Detection ratio from 70+ AV engines
+- Community reputation scores
+- First/last seen dates
+- Threat classification
+
+**Usage:**
+```bash
+# Analyze file
+./scripts/virustotal_lookup.sh --file suspicious.exe
+
+# Lookup hash
+./scripts/virustotal_lookup.sh --hash abc123...
+
+# Batch scan
+./scripts/virustotal_lookup.sh --batch hashes.txt
+
+# Set API key (one-time)
+./scripts/virustotal_lookup.sh --api-key YOUR_VT_KEY
+```
+
+**Get API Key:** https://www.virustotal.com/gui/join-us (Free: 4 req/min)
+
+### 7. YARA Scanner (`yara_scanner.sh`) 🆕
+Industry-standard malware pattern detection using YARA rules.
+
+**Features:**
+- Scan files and directories
+- Community malware rule sets
+- APT, ransomware, webshell detection
+- Fast scan mode (skip large files)
+- Customizable rules
+
+**Usage:**
+```bash
+# Install rules
+./scripts/yara_scanner.sh --install-rules
+
+# Scan file
+./scripts/yara_scanner.sh --file malware.bin --rules ~/.yara/rules/
+
+# Scan directory
+./scripts/yara_scanner.sh --dir /tmp --rules ~/.yara/rules/ --fast
+
+# List installed rules
+./scripts/yara_scanner.sh --list-rules
+```
+
+**Requires:** `yara` (apt-get install yara / brew install yara)
+
+### 8. Timeline Builder (`timeline_builder.sh`) 🆕
+Creates unified forensic timelines from multiple log sources for incident reconstruction.
+
+**Features:**
+- Merge multiple log sources chronologically
+- Time-range filtering
+- Export to CSV, JSON, or text
+- Support for system, auth, web, network logs
+- Event correlation
+
+**Usage:**
+```bash
+# Last 24 hours
+./scripts/timeline_builder.sh --last-hours 24 --all
+
+# Specific time window
+./scripts/timeline_builder.sh --start "2025-12-04 00:00" --end "2025-12-04 23:59" --all
+
+# Export to CSV
+./scripts/timeline_builder.sh --last-hours 12 --all --format csv -o incident.csv
+
+# Custom log files
+./scripts/timeline_builder.sh --files /var/log/app.log /tmp/custom.log
 ```
 
 ## Quick Start Examples

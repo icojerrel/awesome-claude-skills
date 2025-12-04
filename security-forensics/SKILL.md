@@ -32,6 +32,7 @@ This skill provides comprehensive digital forensics and security analysis capabi
 - Extract embedded data and hidden content
 - Hash calculation (MD5, SHA1, SHA256, SHA512)
 - Entropy analysis for detecting encryption/compression
+- **NEW: VirusTotal API integration** - Query file hashes against 70+ antivirus engines
 
 ### 2. Malware Analysis
 - Static analysis (strings, imports, PE headers)
@@ -40,14 +41,18 @@ This skill provides comprehensive digital forensics and security analysis capabi
 - Suspicious pattern detection
 - Packer/obfuscation detection
 - Network indicators extraction
+- **NEW: YARA rules scanning** - Industry-standard malware pattern detection
+- **NEW: Automated threat classification** - Via VirusTotal community intelligence
 
-### 3. Log Analysis
+### 3. Log Analysis & Timeline Reconstruction
 - System log parsing (syslog, auth.log, kern.log)
 - Application log analysis
 - Web server log analysis (Apache, Nginx)
 - Security event correlation
-- Timeline reconstruction
 - Anomaly detection in logs
+- **NEW: Unified timeline builder** - Merge multiple log sources chronologically
+- **NEW: Multi-format export** - Timeline export to CSV, JSON, or text
+- **NEW: Time-range filtering** - Focus on specific incident windows
 
 ### 4. Threat Hunting
 - Process analysis and suspicious behavior detection
@@ -689,6 +694,106 @@ dd if=/dev/sda of=image.dd bs=4M  # Disk imaging (careful!)
 - `autopsy` - Disk forensics
 - `wireshark` - Network analysis
 - `radare2` - Reverse engineering
+- `yara` - Pattern matching (for YARA scanner)
+
+### NEW: Advanced Analysis Tools
+
+#### 1. VirusTotal Lookup (`virustotal_lookup.sh`)
+Query file hashes against VirusTotal's database of 70+ antivirus engines.
+
+**Usage**:
+```bash
+# Analyze single file
+virustotal_lookup.sh --file suspicious.exe
+
+# Lookup hash directly
+virustotal_lookup.sh --hash d41d8cd98f00b204e9800998ecf8427e
+
+# Batch scan multiple hashes
+virustotal_lookup.sh --batch hashes.txt
+
+# Set API key (one-time)
+virustotal_lookup.sh --api-key YOUR_VT_API_KEY
+```
+
+**When to use**:
+- Quick reputation check for unknown files
+- Validate if file is known malware
+- Get threat intelligence from community
+- Enrich IOCs with detection ratios
+
+**Free API**: Get at https://www.virustotal.com/gui/join-us (4 req/min, 500/day)
+
+#### 2. YARA Scanner (`yara_scanner.sh`)
+Industry-standard malware pattern detection using YARA rules.
+
+**Usage**:
+```bash
+# Install community rule sets
+yara_scanner.sh --install-rules
+
+# Scan single file
+yara_scanner.sh --file malware.bin --rules ~/.yara/rules/
+
+# Scan entire directory
+yara_scanner.sh --dir /tmp --rules ~/.yara/rules/malware/
+
+# Fast scan (skip large files)
+yara_scanner.sh --dir /home --rules all_rules.yar --fast
+
+# List installed rules
+yara_scanner.sh --list-rules
+```
+
+**When to use**:
+- Detect specific malware families
+- Hunt for APT indicators
+- Find webshells or backdoors
+- Identify ransomware patterns
+- Scan for cryptocurrency miners
+
+**Rule sets included**:
+- Generic malware detection
+- APT (Advanced Persistent Threats)
+- Ransomware families
+- Web shells
+- Cryptocurrency miners
+- Reverse shells and backdoors
+
+#### 3. Timeline Builder (`timeline_builder.sh`)
+Creates unified timelines from multiple log sources for incident investigation.
+
+**Usage**:
+```bash
+# Last 24 hours, all logs
+timeline_builder.sh --last-hours 24 --all
+
+# Specific time window
+timeline_builder.sh --start "2025-12-04 00:00" --end "2025-12-04 23:59" --all
+
+# Custom log files
+timeline_builder.sh --files /var/log/app.log /tmp/custom.log
+
+# Export to CSV
+timeline_builder.sh --last-hours 12 --all --format csv --output incident.csv
+
+# Export to JSON
+timeline_builder.sh --last-hours 6 --all --format json
+```
+
+**When to use**:
+- Incident response timeline reconstruction
+- Correlate events across multiple systems
+- Identify attack progression
+- Legal evidence documentation
+- Find patient zero
+
+**Log sources supported**:
+- System logs (syslog, messages)
+- Authentication logs (auth.log, secure)
+- Web server logs (Apache, Nginx)
+- Network logs (firewall)
+- Custom application logs
 
 ## Security Warnings
 
@@ -743,4 +848,19 @@ Securely wipe these sensitive files using DoD standard
 **Analyze network capture**:
 ```
 Analyze this PCAP file for suspicious HTTP traffic
+```
+
+**NEW: VirusTotal hash lookup**:
+```
+Check this file hash against VirusTotal - is it known malware?
+```
+
+**NEW: YARA malware scan**:
+```
+Scan this directory with YARA rules for malware patterns
+```
+
+**NEW: Timeline reconstruction**:
+```
+Build a timeline of events for the last 24 hours from all available logs
 ```
