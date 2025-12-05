@@ -1,8 +1,9 @@
 #!/bin/bash
-# Forensic Metadata Analyzer
+# Forensic Metadata Analyzer v2.0
 # Extracts and analyzes file metadata for inconsistencies and anomalies
+# NOW WITH: Corruption marker detection and enhanced anomaly detection
 
-VERSION="1.0"
+VERSION="2.0"
 
 # Colors
 RED='\033[0;31m'
@@ -232,11 +233,31 @@ extract_exif_metadata() {
     fi
 }
 
+# Detect file content corruption markers
+detect_corruption_markers() {
+    local file="$1"
+    local corruption_keywords="corrupt|corrupted|missing|deleted|malfunction|unrecoverable|data loss|file not found|metadata missing"
+
+    if grep -i -q -E "$corruption_keywords" "$file" 2>/dev/null; then
+        echo -e "${RED}CORRUPTION_MARKERS_DETECTED=true${NC}"
+        echo "CORRUPTION_DETAILS=$(grep -i -E "$corruption_keywords" "$file" 2>/dev/null | head -3 | tr '\n' ';')"
+        return 0
+    fi
+
+    echo "CORRUPTION_MARKERS_DETECTED=false"
+    return 1
+}
+
 # Detect metadata inconsistencies
 detect_inconsistencies() {
     local file="$1"
     local metadata="$2"
     local anomalies=()
+
+    # Check for corruption markers in file content
+    if grep -i -q -E "corrupt|corrupted|missing|deleted|malfunction|unrecoverable|data loss|file not found|metadata missing" "$file" 2>/dev/null; then
+        anomalies+=("CRITICAL: File contains corruption markers in content")
+    fi
 
     # Extract timestamps
     local fs_created=$(echo "$metadata" | grep "FILESYSTEM_CREATED=" | cut -d= -f2-)
