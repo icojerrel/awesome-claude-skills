@@ -1,6 +1,6 @@
 ---
 name: security-forensics
-description: Comprehensive digital forensics and security analysis tool for incident response, threat hunting, malware analysis, log analysis, metadata extraction, secure file operations, and CTF challenges. Use when investigating security incidents, analyzing suspicious files, hunting threats, or performing forensic investigations.
+description: Comprehensive digital forensics and security analysis tool for incident response, threat hunting, malware analysis, log analysis, metadata extraction, internet evidence gathering, OSINT, threat intelligence, secure file operations, and CTF challenges. Includes IP/domain reputation checking, CVE lookups, breach databases, and external verification from multiple threat intelligence sources. Use when investigating security incidents, analyzing suspicious files, hunting threats, gathering OSINT, or performing forensic investigations.
 ---
 
 # Security & Forensics
@@ -22,6 +22,12 @@ This skill provides comprehensive digital forensics and security analysis capabi
 - Memory forensics and analysis
 - Timeline reconstruction
 - Evidence collection and preservation
+- **Verifying IP/domain reputation with threat intelligence**
+- **Gathering OSINT (Open Source Intelligence)**
+- **Checking for compromised credentials in breach databases**
+- **CVE vulnerability lookup and risk assessment**
+- **External validation of forensic findings**
+- **Building court-admissible evidence from reputable sources**
 
 ## Capabilities
 
@@ -79,6 +85,20 @@ This skill provides comprehensive digital forensics and security analysis capabi
 - Running process enumeration
 - Open file descriptors analysis
 - Network connections analysis
+
+### 8. **NEW: Internet Evidence & Threat Intelligence**
+- **IP Address Investigation** - Geolocation, ISP, reputation checking
+- **Domain Analysis** - WHOIS, DNS records, SSL certificates, age verification
+- **Threat Intelligence** - AlienVault OTX, AbuseIPDB, Shodan integration
+- **URL Reputation** - VirusTotal URL scanning, safety analysis
+- **CVE Vulnerability Lookup** - Detailed vulnerability information and CVSS scores
+- **Breach Database Checks** - Have I Been Pwned integration
+- **Web Archive History** - Wayback Machine for historical domain analysis
+- **SSL/TLS Certificate Analysis** - Certificate validation and issuer verification
+- **DNS Records Enumeration** - A, MX, TXT, SPF, DMARC records
+- **Auto-detection** - Automatically identifies target type (IP, domain, CVE, email)
+- **Corroborating Evidence** - External validation of findings from multiple sources
+- **Court-Admissible Reports** - Documented evidence from reputable sources
 
 ## Instructions
 
@@ -453,7 +473,116 @@ tar -czf "${EVIDENCE_DIR}.tar.gz" "$EVIDENCE_DIR"
 sha256sum "${EVIDENCE_DIR}.tar.gz" > "${EVIDENCE_DIR}.tar.gz.sha256"
 ```
 
-### 11. Reporting
+### 11. Internet Evidence Gathering & Verification
+
+When you need to verify findings with external sources or gather corroborating evidence:
+
+**Use the Internet Evidence Gatherer tool** (`internet_evidence_gatherer.sh`):
+
+```bash
+# 1. IP Address Investigation
+# When you find a suspicious IP in logs, network traffic, or malware
+internet_evidence_gatherer.sh --ip 203.0.113.42 --output ip_investigation.txt
+
+# Provides:
+# - Geolocation (city, country, ISP)
+# - Reputation score (AbuseIPDB if API key configured)
+# - Threat intelligence (AlienVault OTX)
+# - Open ports and services (Shodan if API key configured)
+# - Reverse DNS lookup
+
+# 2. Domain Investigation
+# When analyzing phishing emails, malicious URLs, or C&C servers
+internet_evidence_gatherer.sh --domain suspicious-bank.com --output domain_report.txt
+
+# Provides:
+# - WHOIS information (registrar, creation date, expiry)
+# - DNS records (A, MX, TXT, SPF, DMARC)
+# - SSL/TLS certificate analysis
+# - Domain age (newly registered = high risk)
+# - Web archive history (Wayback Machine)
+# - Threat intelligence feeds
+# - VirusTotal reputation (if API key configured)
+
+# 3. CVE Vulnerability Verification
+# When you discover vulnerable software versions
+internet_evidence_gatherer.sh --cve CVE-2021-44228
+
+# Provides:
+# - Vulnerability description
+# - CVSS severity score (Critical/High/Medium/Low)
+# - Publication and modification dates
+# - Reference links to NVD and CIRCL
+
+# 4. Email Breach Check
+# When investigating compromised credentials
+internet_evidence_gatherer.sh --email suspect@company.com
+
+# Provides:
+# - Breach database matches (Have I Been Pwned)
+# - List of breached services
+# - Historical credential exposure
+
+# 5. Comprehensive Auto-Detection
+# When you're unsure of the type, use comprehensive mode
+internet_evidence_gatherer.sh --comprehensive 198.51.100.42
+internet_evidence_gatherer.sh --comprehensive malware-c2.com
+internet_evidence_gatherer.sh --comprehensive CVE-2024-1234
+```
+
+**When to use Internet Evidence**:
+- ✅ Corroborate local findings with external threat intelligence
+- ✅ Verify if IP/domain is known malicious before reporting
+- ✅ Check domain age (phishing often uses newly registered domains)
+- ✅ Validate CVE severity for risk assessment
+- ✅ Build court-admissible evidence from reputable sources
+- ✅ Identify if credentials have been leaked in past breaches
+- ✅ Gather OSINT for attribution and context
+
+**Example Investigation Workflow**:
+```bash
+# Step 1: Analyze local evidence
+strings malware.bin | grep -E "http|[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+"
+
+# Output shows: C&C server at 198.51.100.42 and domain evil-c2.com
+
+# Step 2: Verify findings with internet evidence
+internet_evidence_gatherer.sh --ip 198.51.100.42 --output c2_ip_report.txt
+internet_evidence_gatherer.sh --domain evil-c2.com --output c2_domain_report.txt
+
+# Step 3: Review reports
+cat c2_ip_report.txt
+# Shows: IP in Russia, AbuseIPDB score 95%, known malware C&C
+
+cat c2_domain_report.txt
+# Shows: Domain registered 5 days ago, no WHOIS privacy, Let's Encrypt cert
+
+# Step 4: Document in final report with external validation
+```
+
+**API Key Configuration** (Optional but enhances capabilities):
+```bash
+# VirusTotal (file/URL reputation)
+internet_evidence_gatherer.sh --api-key-vt YOUR_VT_KEY
+
+# AbuseIPDB (IP reputation and abuse reports)
+internet_evidence_gatherer.sh --api-key-abuseipdb YOUR_ABUSEIPDB_KEY
+
+# Shodan (IP intelligence and open ports)
+internet_evidence_gatherer.sh --api-key-shodan YOUR_SHODAN_KEY
+
+# Keys are saved to:
+# ~/.vt_api_key
+# ~/.abuseipdb_api_key
+# ~/.shodan_api_key
+```
+
+**Free API keys available**:
+- VirusTotal: https://www.virustotal.com/gui/join-us (4 req/min, 500/day)
+- AbuseIPDB: https://www.abuseipdb.com/register (1000 checks/day)
+- Shodan: https://account.shodan.io/register (limited free tier)
+
+### 12. Reporting
 
 After analysis, provide structured report:
 
@@ -794,6 +923,76 @@ timeline_builder.sh --last-hours 6 --all --format json
 - Web server logs (Apache, Nginx)
 - Network logs (firewall)
 - Custom application logs
+
+#### 4. **NEW: Internet Evidence Gatherer (`internet_evidence_gatherer.sh`)**
+Collects corroborating and verifying evidence from internet sources for forensic investigations.
+
+**Usage**:
+```bash
+# Investigate IP address
+internet_evidence_gatherer.sh --ip 203.0.113.42 --output ip_report.txt
+
+# Investigate domain
+internet_evidence_gatherer.sh --domain malicious-site.com
+
+# Check URL reputation
+internet_evidence_gatherer.sh --url "https://suspicious-site.com/payload.exe"
+
+# CVE vulnerability lookup
+internet_evidence_gatherer.sh --cve CVE-2021-44228
+
+# Email breach database check
+internet_evidence_gatherer.sh --email suspect@example.com
+
+# Comprehensive investigation (auto-detect type)
+internet_evidence_gatherer.sh --comprehensive 192.168.1.1
+internet_evidence_gatherer.sh --comprehensive example.com
+
+# Configure API keys (optional, enhances features)
+internet_evidence_gatherer.sh --api-key-vt YOUR_VIRUSTOTAL_KEY
+internet_evidence_gatherer.sh --api-key-abuseipdb YOUR_ABUSEIPDB_KEY
+internet_evidence_gatherer.sh --api-key-shodan YOUR_SHODAN_KEY
+```
+
+**When to use**:
+- Verify IP/domain reputation with external sources
+- Corroborate local findings with threat intelligence
+- Gather OSINT (Open Source Intelligence) on suspects
+- Check if infrastructure is known malicious
+- Validate CVE severity and impact
+- Identify compromised credentials in breach databases
+- Build court-admissible evidence from reputable sources
+- Historical domain analysis via web archives
+
+**Capabilities**:
+- **IP Investigation**: Geolocation, ISP, abuse reports, threat intelligence, reverse DNS
+- **Domain Analysis**: WHOIS, DNS records, SSL certificates, age verification, reputation
+- **Threat Intelligence**: AlienVault OTX, AbuseIPDB, Shodan integration
+- **URL Reputation**: VirusTotal URL scanning, safety analysis
+- **CVE Lookup**: Vulnerability details, CVSS scores, severity ratings
+- **Breach Checks**: Have I Been Pwned integration
+- **Web Archives**: Wayback Machine historical data
+- **Auto-detection**: Automatically identifies target type and runs appropriate checks
+
+**Free API keys available from**:
+- VirusTotal: https://www.virustotal.com/gui/join-us
+- AbuseIPDB: https://www.abuseipdb.com/register
+- Shodan: https://account.shodan.io/register
+
+**Example workflow**:
+```bash
+# During incident response, verify suspicious IP found in logs
+internet_evidence_gatherer.sh --comprehensive 198.51.100.42
+
+# Check if domain is newly registered (phishing indicator)
+internet_evidence_gatherer.sh --domain suspicious-bank-login.com
+
+# Verify if leaked credentials are in breach databases
+internet_evidence_gatherer.sh --email compromised.user@company.com
+
+# Get CVE details for vulnerability found in scan
+internet_evidence_gatherer.sh --cve CVE-2024-12345
+```
 
 ## Security Warnings
 
