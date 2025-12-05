@@ -143,7 +143,8 @@ Claude Skills are customizable workflows that teach Claude how to perform specif
 
 ### Security & Systems
 
-- [Security & Forensics](./security-forensics/) - Comprehensive digital forensics and security analysis for incident response, threat hunting, malware analysis, log analysis, metadata extraction, secure file operations, and CTF challenges. Includes helper scripts for file analysis, evidence collection, and IOC scanning.
+- [Security & Forensics](./security-forensics/) - **🆕 ENHANCED** Comprehensive digital forensics and security analysis for incident response, threat hunting, malware analysis, log analysis, metadata extraction, secure file operations, and CTF challenges. **NEW:** Chain of custody management (ISO/IEC 27037), metadata tampering detection, VirusTotal integration, YARA malware scanning, forensic timeline builder. Includes 10 helper scripts (102KB) for law enforcement grade evidence handling.
+- [Video Forensics](./video-forensics/) - **🆕 NEW** Law enforcement grade video forensics toolkit for CCTV/surveillance analysis. Features: Face detection & recognition, license plate recognition (ANPR) for NL/UK/US/DE/FR/BE, object tracking, frame extraction, video metadata analysis, tampering detection. Supports court-admissible evidence preparation and multi-camera timeline reconstruction.
 - [computer-forensics](https://github.com/mhattingpete/claude-skills-marketplace/tree/main/computer-forensics-skills/skills/computer-forensics) - Digital forensics analysis and investigation techniques.
 - [file-deletion](https://github.com/mhattingpete/claude-skills-marketplace/tree/main/computer-forensics-skills/skills/file-deletion) - Secure file deletion and data sanitization methods.
 - [metadata-extraction](https://github.com/mhattingpete/claude-skills-marketplace/tree/main/computer-forensics-skills/skills/metadata-extraction) - Extract and analyze file metadata for forensic purposes.
