@@ -14,9 +14,10 @@ from typing import List, Dict, Any, Optional
 try:
     from skill_registry import SkillRegistry
     from task_matcher import TaskMatcher
+    from agent_dispatcher import AgentDispatcher
 except ImportError:
     print("Error: Could not import required modules")
-    print("Make sure skill_registry.py and task_matcher.py are in the same directory")
+    print("Make sure skill_registry.py, task_matcher.py, and agent_dispatcher.py are in the same directory")
     sys.exit(1)
 
 VERSION = "1.0"
@@ -36,6 +37,7 @@ class SkillOrchestrator:
     def __init__(self, database_path: str = None):
         self.registry = SkillRegistry(database_path)
         self.matcher = TaskMatcher(database_path)
+        self.dispatcher = AgentDispatcher()
 
     def execute_skill(self, skill: Dict, script_name: str, args: List[str] = None) -> bool:
         """Execute a skill script"""
@@ -181,6 +183,87 @@ class SkillOrchestrator:
 
         print()
 
+    def dispatch_agent(self, task: str, show_prompt: bool = False):
+        """
+        Dispatch optimal agent for task execution
+
+        Args:
+            task: Task description
+            show_prompt: Whether to show the generated agent prompt
+        """
+        print(f"{Colors.CYAN}{'═' * 70}{Colors.NC}")
+        print(f"{Colors.BOLD}🚀 AGENT DISPATCHER{Colors.NC}")
+        print(f"{Colors.CYAN}{'═' * 70}{Colors.NC}")
+        print()
+
+        # Analyze task and match skills
+        task_analysis = self.matcher.analyze_task(task)
+        matches = self.matcher.match_skills(task, top_n=5)
+
+        if not matches:
+            print(f"{Colors.RED}No matching skills found{Colors.NC}")
+            return None
+
+        # Select optimal agent
+        agent_config = self.dispatcher.select_agent(task_analysis, matches)
+
+        # Create workflow for context
+        workflow = self.create_workflow(task)
+        workflow_steps = workflow.get('steps', [])
+
+        # Show dispatch summary
+        print(self.dispatcher.format_dispatch_summary(task, agent_config))
+
+        # Show agent prompt if requested
+        if show_prompt:
+            prompt = self.dispatcher.generate_agent_prompt(task, agent_config, workflow_steps)
+            print(f"\n{Colors.BOLD}Generated Agent Prompt:{Colors.NC}")
+            print(f"{Colors.CYAN}{'─' * 70}{Colors.NC}")
+            print(prompt)
+            print(f"{Colors.CYAN}{'─' * 70}{Colors.NC}")
+
+        # Show recommended usage
+        print(f"\n{Colors.BOLD}To launch this agent:{Colors.NC}")
+        agent_type = agent_config['agent_type']
+
+        if agent_type == 'Explore':
+            thoroughness = agent_config.get('thoroughness', 'medium')
+            print(f"  Use the Task tool with:")
+            print(f"    - subagent_type: '{agent_type}'")
+            print(f"    - Thoroughness level: '{thoroughness}'")
+            print(f"    - Task: {task}")
+        elif agent_type == 'general-purpose':
+            print(f"  Use the Task tool with:")
+            print(f"    - subagent_type: '{agent_type}'")
+            print(f"    - Task: {task}")
+        elif agent_type == 'Plan':
+            print(f"  Use the Task tool with:")
+            print(f"    - subagent_type: '{agent_type}'")
+            print(f"    - Task: {task}")
+
+        print()
+
+        return {
+            'agent_config': agent_config,
+            'workflow': workflow,
+            'task_analysis': task_analysis
+        }
+
+    def show_agent_capabilities(self):
+        """Show agent capability matrix"""
+        print(f"\n{Colors.CYAN}{'═' * 70}{Colors.NC}")
+        print(f"{Colors.BOLD}Agent Capability Matrix{Colors.NC}")
+        print(f"{Colors.CYAN}{'═' * 70}{Colors.NC}\n")
+
+        for agent_type, info in self.dispatcher.agent_capabilities.items():
+            print(f"{Colors.BOLD}{agent_type}{Colors.NC}")
+            print(f"  {info['description']}")
+            print(f"  {Colors.GREEN}Best for:{Colors.NC} {', '.join(info['best_for'])}")
+            print(f"  {Colors.YELLOW}Complexity:{Colors.NC} {', '.join(info['complexity'])}")
+            if 'thoroughness_levels' in info:
+                print(f"  {Colors.CYAN}Thoroughness:{Colors.NC} {', '.join(info['thoroughness_levels'])}")
+            print()
+
     def scan_for_updates(self):
         """Scan for skill updates"""
         print(f"{Colors.BLUE}Scanning for skill updates...{Colors.NC}")
@@ -249,6 +332,15 @@ Examples:
   # Create workflow
   %(prog)s --task "Scrape website and analyze data" --workflow
 
+  # Dispatch optimal agent for task
+  %(prog)s --task "Optimize database queries" --dispatch
+
+  # Dispatch agent with generated prompt
+  %(prog)s --task "Analyze security vulnerabilities" --dispatch --show-prompt
+
+  # Show agent capability matrix
+  %(prog)s --agents
+
   # Show ecosystem status
   %(prog)s --status
 
@@ -259,6 +351,9 @@ Examples:
 
     parser.add_argument('--task', help='Task description')
     parser.add_argument('--workflow', action='store_true', help='Create workflow')
+    parser.add_argument('--dispatch', action='store_true', help='Dispatch optimal agent for task')
+    parser.add_argument('--show-prompt', action='store_true', help='Show generated agent prompt (use with --dispatch)')
+    parser.add_argument('--agents', action='store_true', help='Show agent capability matrix')
     parser.add_argument('--status', action='store_true', help='Show ecosystem status')
     parser.add_argument('--scan-updates', action='store_true', help='Scan for skill updates')
     parser.add_argument('--database', help='Database file path')
@@ -269,11 +364,16 @@ Examples:
     orchestrator = SkillOrchestrator(args.database)
 
     if args.task:
-        if args.workflow:
+        if args.dispatch:
+            orchestrator.dispatch_agent(args.task, show_prompt=args.show_prompt)
+        elif args.workflow:
             workflow = orchestrator.create_workflow(args.task)
             orchestrator.print_workflow(workflow)
         else:
             orchestrator.interactive_task_help(args.task)
+
+    elif args.agents:
+        orchestrator.show_agent_capabilities()
 
     elif args.status:
         orchestrator.show_ecosystem_status()
