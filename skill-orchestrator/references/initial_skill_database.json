@@ -1,0 +1,233 @@
+{
+  "skills": [
+    {
+      "id": "api-tester",
+      "name": "API Tester",
+      "description": "Comprehensive REST/GraphQL API testing suite with performance benchmarking",
+      "category": "development",
+      "subcategories": ["testing", "api", "performance"],
+      "capabilities": [
+        "rest-api-testing",
+        "graphql-testing",
+        "performance-benchmarking",
+        "openapi-validation",
+        "authentication"
+      ],
+      "keywords": [
+        "api", "rest", "graphql", "test", "testing", "performance",
+        "benchmark", "latency", "p50", "p95", "p99", "openapi", "swagger"
+      ],
+      "source": "local",
+      "path": "./api-tester/",
+      "version": "1.0",
+      "quality_score": 9.5,
+      "dependencies": ["python3", "requests"],
+      "scripts": [
+        "rest_api_tester.py",
+        "graphql_tester.py",
+        "response_time_analyzer.py",
+        "openapi_validator.sh"
+      ],
+      "related_skills": ["web-scraper", "log-aggregator", "data-visualization"]
+    },
+    {
+      "id": "web-scraper",
+      "name": "Web Scraper",
+      "description": "Professional web scraping toolkit with BeautifulSoup and Selenium",
+      "category": "automation",
+      "subcategories": ["scraping", "automation", "parsing"],
+      "capabilities": [
+        "static-scraping",
+        "dynamic-scraping",
+        "proxy-rotation",
+        "rate-limiting",
+        "data-extraction"
+      ],
+      "keywords": [
+        "scrape", "scraping", "beautifulsoup", "selenium", "web",
+        "extract", "crawl", "proxy", "automation"
+      ],
+      "source": "local",
+      "path": "./web-scraper/",
+      "version": "1.0",
+      "quality_score": 9.7,
+      "dependencies": ["python3", "requests", "beautifulsoup", "selenium"],
+      "scripts": [
+        "beautifulsoup_scraper.py",
+        "selenium_scraper.py",
+        "proxy_rotator.py"
+      ],
+      "related_skills": ["api-tester", "data-visualization"]
+    },
+    {
+      "id": "data-visualization",
+      "name": "Data Visualization",
+      "description": "Create beautiful charts, graphs, and dashboards from CSV/JSON data",
+      "category": "data-analysis",
+      "subcategories": ["visualization", "charts", "dashboards"],
+      "capabilities": [
+        "chart-creation",
+        "dashboard-building",
+        "time-series-visualization",
+        "statistical-plots"
+      ],
+      "keywords": [
+        "visualize", "chart", "graph", "plot", "dashboard", "matplotlib",
+        "plotly", "data", "csv", "json", "interactive"
+      ],
+      "source": "local",
+      "path": "./data-visualization/",
+      "version": "1.0",
+      "quality_score": 9.6,
+      "dependencies": ["python3", "matplotlib", "plotly", "pandas"],
+      "scripts": [
+        "quick_chart.py"
+      ],
+      "related_skills": ["api-tester", "database-optimizer", "expense-tracker"]
+    },
+    {
+      "id": "expense-tracker",
+      "name": "Expense Tracker",
+      "description": "Personal and business expense tracking with OCR receipt parsing",
+      "category": "business",
+      "subcategories": ["financial", "ocr", "automation"],
+      "capabilities": [
+        "receipt-parsing",
+        "ocr-extraction",
+        "expense-categorization",
+        "tax-tracking",
+        "budget-management"
+      ],
+      "keywords": [
+        "expense", "receipt", "invoice", "ocr", "tesseract", "tax",
+        "budget", "financial", "accounting", "categorize"
+      ],
+      "source": "local",
+      "path": "./expense-tracker/",
+      "version": "1.0",
+      "quality_score": 9.8,
+      "dependencies": ["python3", "tesseract", "sqlite3"],
+      "scripts": [
+        "receipt_parser.py",
+        "add_expense.sh"
+      ],
+      "related_skills": ["data-visualization"]
+    },
+    {
+      "id": "docker-optimizer",
+      "name": "Docker Optimizer",
+      "description": "Optimize Docker images and containers for production",
+      "category": "development",
+      "subcategories": ["docker", "optimization", "security"],
+      "capabilities": [
+        "dockerfile-analysis",
+        "image-optimization",
+        "security-scanning",
+        "multi-stage-builds"
+      ],
+      "keywords": [
+        "docker", "container", "optimize", "dockerfile", "image",
+        "security", "multi-stage", "build"
+      ],
+      "source": "local",
+      "path": "./docker-optimizer/",
+      "version": "1.0",
+      "quality_score": 8.5,
+      "dependencies": ["docker"],
+      "scripts": [
+        "dockerfile_analyzer.sh"
+      ],
+      "related_skills": ["security-forensics"]
+    },
+    {
+      "id": "database-optimizer",
+      "name": "Database Optimizer",
+      "description": "Optimize database performance for PostgreSQL, MySQL, and SQLite",
+      "category": "data-analysis",
+      "subcategories": ["database", "optimization", "performance"],
+      "capabilities": [
+        "query-analysis",
+        "index-recommendations",
+        "n+1-detection",
+        "execution-plan-optimization"
+      ],
+      "keywords": [
+        "database", "sql", "query", "optimize", "index", "performance",
+        "postgresql", "mysql", "sqlite", "n+1"
+      ],
+      "source": "local",
+      "path": "./database-optimizer/",
+      "version": "1.0",
+      "quality_score": 8.7,
+      "dependencies": ["sqlite3", "postgresql", "mysql"],
+      "scripts": [
+        "query_analyzer.sh"
+      ],
+      "related_skills": ["log-aggregator", "data-visualization"]
+    },
+    {
+      "id": "log-aggregator",
+      "name": "Log Aggregator",
+      "description": "Aggregate and analyze logs from multiple sources",
+      "category": "data-analysis",
+      "subcategories": ["logging", "parsing", "monitoring"],
+      "capabilities": [
+        "log-parsing",
+        "multi-format-support",
+        "error-detection",
+        "metric-extraction"
+      ],
+      "keywords": [
+        "log", "logging", "parse", "aggregate", "json", "syslog",
+        "apache", "nginx", "error", "monitor"
+      ],
+      "source": "local",
+      "path": "./log-aggregator/",
+      "version": "1.0",
+      "quality_score": 8.3,
+      "dependencies": ["python3"],
+      "scripts": [],
+      "related_skills": ["database-optimizer", "data-visualization"]
+    },
+    {
+      "id": "skill-orchestrator",
+      "name": "Skill Orchestrator",
+      "description": "Intelligent skills management system that discovers, matches, and coordinates skills",
+      "category": "meta",
+      "subcategories": ["orchestration", "automation", "discovery"],
+      "capabilities": [
+        "skill-discovery",
+        "task-matching",
+        "workflow-creation",
+        "github-scanning",
+        "skill-management"
+      ],
+      "keywords": [
+        "orchestrator", "meta", "discovery", "match", "workflow",
+        "github", "automation", "coordinate", "manage"
+      ],
+      "source": "local",
+      "path": "./skill-orchestrator/",
+      "version": "1.0",
+      "quality_score": 10.0,
+      "dependencies": ["python3", "requests"],
+      "scripts": [
+        "orchestrator.py",
+        "skill_registry.py",
+        "github_scanner.py",
+        "task_matcher.py"
+      ],
+      "related_skills": []
+    }
+  ],
+  "categories": {
+    "development": ["api-tester", "docker-optimizer"],
+    "automation": ["web-scraper"],
+    "data-analysis": ["data-visualization", "database-optimizer", "log-aggregator"],
+    "business": ["expense-tracker"],
+    "meta": ["skill-orchestrator"]
+  },
+  "last_scan": "2025-12-26T12:00:00Z",
+  "total_skills": 8,
+  "version": "1.0"
+}
