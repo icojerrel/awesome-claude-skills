@@ -74,9 +74,11 @@ Claude Skills are customizable workflows that teach Claude how to perform specif
 
 ### Development & Code Tools
 
+- [API Tester](./api-tester/) - **🆕 NEW** Comprehensive REST/GraphQL API testing suite with performance benchmarking. Test endpoints, validate responses, analyze latency (p50/p95/p99), authenticate with Bearer/API keys, and validate OpenAPI specs. Includes retry logic and detailed assertions.
 - [artifacts-builder](https://github.com/anthropics/skills/tree/main/artifacts-builder) - Suite of tools for creating elaborate, multi-component claude.ai HTML artifacts using modern frontend web technologies (React, Tailwind CSS, shadcn/ui).
 - [aws-skills](https://github.com/zxkane/aws-skills) - AWS development with CDK best practices, cost optimization MCP servers, and serverless/event-driven architecture patterns.
 - [Changelog Generator](./changelog-generator/) - Automatically creates user-facing changelogs from git commits by analyzing history and transforming technical commits into customer-friendly release notes.
+- [Docker Optimizer](./docker-optimizer/) - **🆕 NEW** Optimize Docker images and containers for production. Analyze Dockerfiles, reduce image sizes, fix security vulnerabilities, improve build times, and implement multi-stage build optimization with layer caching strategies.
 - [Claude Code Terminal Title](https://github.com/bluzername/claude-code-terminal-title) - Gives each Claud-Code terminal window a dynamic title that describes the work being done so you don't lose track of what window is doing what.
 - [D3.js Visualization](https://github.com/chrisvoncsefalvay/claude-d3js-skill) - Teaches Claude to produce D3 charts and interactive data visualizations. *By [@chrisvoncsefalvay](https://github.com/chrisvoncsefalvay)*
 - [FFUF Web Fuzzing](https://github.com/jthack/ffuf_claude_skill) - Integrates the ffuf web fuzzer so Claude can run fuzzing tasks and analyze results for vulnerabilities. *By [@jthack](https://github.com/jthack)*
@@ -94,10 +96,14 @@ Claude Skills are customizable workflows that teach Claude how to perform specif
 - [test-driven-development](https://github.com/obra/superpowers/tree/main/skills/test-driven-development) - Use when implementing any feature or bugfix, before writing implementation code.
 - [using-git-worktrees](https://github.com/obra/superpowers/blob/main/skills/using-git-worktrees/) - Creates isolated git worktrees with smart directory selection and safety verification.
 - [Webapp Testing](./webapp-testing/) - Tests local web applications using Playwright for verifying frontend functionality, debugging UI behavior, and capturing screenshots.
+- [Web Scraper](./web-scraper/) - **🆕 NEW** Professional web scraping toolkit with BeautifulSoup and Selenium. Extract data from static/dynamic pages, rotate proxies, handle rate limiting, parse tables, and export to JSON/CSV. Includes anti-bot detection strategies.
 
 ### Data & Analysis
 
 - [CSV Data Summarizer](https://github.com/coffeefuelbump/csv-data-summarizer-claude-skill) - Automatically analyzes CSV files and generates comprehensive insights with visualizations without requiring user prompts. *By [@coffeefuelbump](https://github.com/coffeefuelbump)*
+- [Data Visualization](./data-visualization/) - **🆕 NEW** Create beautiful charts, graphs, and dashboards from CSV/JSON data using matplotlib and plotly. Supports line charts, bar charts, scatter plots, pie charts, heatmaps, and interactive dashboards. Export to PNG, SVG, PDF, or HTML.
+- [Database Optimizer](./database-optimizer/) - **🆕 NEW** Optimize database performance for PostgreSQL, MySQL, and SQLite. Analyze slow queries, suggest indexes, detect N+1 queries, and improve execution plans with actionable recommendations.
+- [Log Aggregator](./log-aggregator/) - **🆕 NEW** Aggregate and analyze logs from multiple sources. Parse JSON, syslog, Apache, and Nginx formats. Extract metrics, detect error patterns, and generate consolidated reports.
 - [root-cause-tracing](https://github.com/obra/superpowers/tree/main/skills/root-cause-tracing) - Use when errors occur deep in execution and you need to trace back to find the original trigger.
 
 ### Business & Marketing
@@ -105,6 +111,7 @@ Claude Skills are customizable workflows that teach Claude how to perform specif
 - [Brand Guidelines](./brand-guidelines/) - Applies Anthropic's official brand colors and typography to artifacts for consistent visual identity and professional design standards.
 - [Competitive Ads Extractor](./competitive-ads-extractor/) - Extracts and analyzes competitors' ads from ad libraries to understand messaging and creative approaches that resonate.
 - [Domain Name Brainstormer](./domain-name-brainstormer/) - Generates creative domain name ideas and checks availability across multiple TLDs including .com, .io, .dev, and .ai extensions.
+- [Expense Tracker](./expense-tracker/) - **🆕 NEW** Personal and business expense tracking with OCR receipt parsing (Tesseract), automatic categorization, tax-deductible tracking, client/project expenses, budget management, and SQLite storage. Perfect for freelancers and small businesses.
 - [Internal Comms](./internal-comms/) - Helps write internal communications including 3P updates, company newsletters, FAQs, status reports, and project updates using company-specific formats.
 - [Lead Research Assistant](./lead-research-assistant/) - Identifies and qualifies high-quality leads by analyzing your product, searching for target companies, and providing actionable outreach strategies.
 
