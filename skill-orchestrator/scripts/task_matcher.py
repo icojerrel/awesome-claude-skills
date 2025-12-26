@@ -36,10 +36,10 @@ class TaskMatcher:
             'test': ['testing', 'test', 'qa', 'validate', 'verify'],
             'api': ['api', 'rest', 'graphql', 'endpoint', 'service'],
             'scrape': ['scrape', 'scraping', 'extract', 'crawl', 'spider'],
-            'visualize': ['visualize', 'chart', 'graph', 'plot', 'dashboard'],
+            'visualize': ['visualize', 'visualizing', 'visualization', 'visualizations', 'chart', 'graph', 'plot', 'dashboard'],
             'database': ['database', 'db', 'sql', 'query', 'table'],
             'log': ['log', 'logging', 'logs', 'trace'],
-            'optimize': ['optimize', 'improve', 'enhance', 'tune', 'performance'],
+            'optimize': ['optimize', 'optimizing', 'optimization', 'improve', 'enhance', 'tune', 'performance'],
             'security': ['security', 'secure', 'forensics', 'audit', 'vulnerability'],
             'docker': ['docker', 'container', 'containerize', 'image'],
             'expense': ['expense', 'receipt', 'invoice', 'cost', 'budget']
@@ -88,11 +88,11 @@ class TaskMatcher:
 
         capability_patterns = {
             'api-testing': ['test.*api', 'api.*test', 'endpoint.*test'],
-            'web-scraping': ['scrape', 'extract.*web', 'crawl'],
-            'data-visualization': ['chart', 'graph', 'visualize', 'plot', 'dashboard'],
+            'web-scraping': ['scrape', 'scraping', 'extract.*web', 'crawl'],
+            'data-visualization': ['chart', 'graph', 'visualiz', 'plot', 'dashboard'],
             'performance-testing': ['performance', 'benchmark', 'latency', 'speed'],
-            'database-optimization': ['optimize.*database', 'database.*performance', 'slow.*query'],
-            'log-analysis': ['analyze.*log', 'log.*analysis', 'parse.*log'],
+            'database-optimization': ['optim.*database', 'database.*performance', 'slow.*query'],
+            'log-analysis': ['analyz.*log', 'log.*analys', 'parse.*log'],
             'receipt-parsing': ['receipt', 'invoice', 'expense', 'ocr'],
             'security-analysis': ['security', 'forensics', 'vulnerability', 'audit']
         }
@@ -146,6 +146,11 @@ class TaskMatcher:
 
         scores = []
         for skill in self.database.get('skills', []):
+            # Skip meta-skills from normal task matching
+            # Meta-skills coordinate other skills rather than performing tasks
+            if skill.get('name') in ['Skill Orchestrator', 'Skill Creator', 'Skill Share']:
+                continue
+
             score = self.calculate_match_score(task_analysis, skill)
             scores.append((skill, score))
 
@@ -186,11 +191,40 @@ class TaskMatcher:
 
         if task_capabilities and skill_capabilities:
             cap_overlap = len(task_capabilities & skill_capabilities)
-            cap_score = (cap_overlap / len(task_capabilities)) * 100
-            score += cap_score * 0.30
+            if cap_overlap > 0:
+                # Direct capability match
+                cap_score = (cap_overlap / len(task_capabilities)) * 100
+                score += cap_score * 0.30
+            else:
+                # No direct match, try semantic matching
+                skill_name = skill.get('name', '').lower()
+                skill_desc = skill.get('description', '').lower()
+                skill_text = f"{skill_name} {skill_desc}"
+
+                matches = 0
+                for cap in task_capabilities:
+                    cap_terms = cap.replace('-', ' ').split()
+                    if all(term in skill_text for term in cap_terms):
+                        matches += 1
+
+                if matches > 0:
+                    cap_score = (matches / len(task_capabilities)) * 100
+                    score += cap_score * 0.30
         elif task_capabilities:
-            # No exact capability match, but check for related keywords
-            score += 10  # Small bonus for attempting match
+            # No skill capabilities, try semantic matching
+            skill_name = skill.get('name', '').lower()
+            skill_desc = skill.get('description', '').lower()
+            skill_text = f"{skill_name} {skill_desc}"
+
+            matches = 0
+            for cap in task_capabilities:
+                cap_terms = cap.replace('-', ' ').split()
+                if all(term in skill_text for term in cap_terms):
+                    matches += 1
+
+            if matches > 0:
+                cap_score = (matches / len(task_capabilities)) * 100
+                score += cap_score * 0.30
 
         # 3. Category Relevance (15%)
         if task_analysis['category'] == skill.get('category'):
